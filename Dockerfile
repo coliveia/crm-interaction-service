@@ -1,4 +1,4 @@
-# Multi-stage build for CRM Microservice
+# Multi-stage build for CRM Java Microservice
 # Stage 1: Build
 FROM maven:3.9-eclipse-temurin-21 AS builder
 
@@ -45,4 +45,3 @@ ENV JAVA_OPTS="-Xms512m -Xmx1024m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+Par
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
-
