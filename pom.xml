@@ -29,9 +29,9 @@
     
     <repositories>
         <repository>
-            <id>oracle</id>
-            <name>Oracle JDBC Repository</name>
-            <url>https://maven.oracle.com</url>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2</url>
         </repository>
     </repositories>
     
@@ -55,6 +55,12 @@
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11</artifactId>
+            <version>${oracle.version}</version>
+        </dependency>
+        <!-- Oracle Security Dependencies (required for Wallet/Keystore support) -->
+        <dependency>
+            <groupId>com.oracle.database.security</groupId>
+            <artifactId>oraclepki</artifactId>
             <version>${oracle.version}</version>
         </dependency>
         <!-- Spring Kafka (for event publishing) -->
