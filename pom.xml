@@ -26,6 +26,15 @@
         <oracle.version>23.4.0.24.05</oracle.version>
         <springdoc.version>2.3.0</springdoc.version>
     </properties>
+    
+    <repositories>
+        <repository>
+            <id>oracle</id>
+            <name>Oracle JDBC Repository</name>
+            <url>https://maven.oracle.com</url>
+        </repository>
+    </repositories>
+    
     <dependencies>
         <!-- Spring Boot WebFlux (Reactive) -->
         <dependency>
@@ -46,12 +55,6 @@
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11</artifactId>
-            <version>${oracle.version}</version>
-        </dependency>
-        <!-- Oracle JDBC Extension for OSON (Native JSON Support) -->
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc11-production</artifactId>
             <version>${oracle.version}</version>
         </dependency>
         <!-- Spring Kafka (for event publishing) -->
