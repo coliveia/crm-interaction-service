@@ -1,69 +1,58 @@
-server:
-  port: 8084
-
 spring:
   application:
     name: crm-interaction-service
   
-  datasource:
-    url: jdbc:oracle:thin:@${DB_HOST:localhost}:${DB_PORT:1521}/${DB_SERVICE:FREEPDB1}
-    username: ${DB_USERNAME:crm_user}
-    password: ${DB_PASSWORD:crm_password}
-    driver-class-name: oracle.jdbc.OracleDriver
-  
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.OracleDialect
         format_sql: true
+        jdbc:
+          batch_size: 20
+          fetch_size: 50
+        # Habilitar suporte a JSON nativo do Oracle com OSON
+        dialect:
+          oracle:
+            oson_format_disabled: false
+  
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: crm_user
+    password: crm_password
+    driver-class-name: oracle.jdbc.OracleDriver
   
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
-      group-id: interaction-service
-      auto-offset-reset: earliest
+      bootstrap-servers: localhost:9092
+      group-id: crm-interaction-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
-# OpenAI Configuration
-openai:
-  api:
-    key: ${OPENAI_API_KEY:}
-    url: ${OPENAI_API_URL:https://api.openai.com/v1}
+server:
+  port: 8082
+  servlet:
+    context-path: /
 
-# Management & Monitoring
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
-  metrics:
-    export:
-      prometheus:
-        enabled: true
+        include: health,metrics,prometheus
   endpoint:
     health:
       show-details: always
 
-# Logging
 logging:
   level:
+    root: INFO
     com.vivo.crm: DEBUG
-    org.springframework.web: INFO
-    org.hibernate: INFO
-
-# Swagger/OpenAPI
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    enabled: true
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG

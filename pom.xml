@@ -98,6 +98,12 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- CRM Shared Libraries -->
+        <dependency>
+            <groupId>com.vivo.crm</groupId>
+            <artifactId>crm-shared-libs</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <!-- Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
